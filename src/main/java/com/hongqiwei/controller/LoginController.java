@@ -13,7 +13,7 @@ public class LoginController{
 	public String login(@RequestParam("username") String username
 			,@RequestParam("password") String password){
 		if("user".equals(username)&&"123".equals(password)){
-			return "Hello world";
+			return "Hello world!";
 		}else{
 			return "fail";
 		}
