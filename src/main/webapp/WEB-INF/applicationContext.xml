@@ -14,6 +14,23 @@
     <!-- 配置要扫描的包 -->    
     <context:component-scan base-package="com.hongqiwei"></context:component-scan>  
  	
+	<mvc:annotation-driven>
+	
+	
+		<!-- 返回json数据，@response使用 -->
+		<mvc:message-converters register-defaults="true">
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
 
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
   
 </beans>

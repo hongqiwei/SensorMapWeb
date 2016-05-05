@@ -74,24 +74,18 @@ public class CommunityController {
 	public String getShareList(@RequestParam("username") String username){
 		
 		Database db = new Database();
-		Connection conn = db.getConn();
-		
+		Connection conn = db.getConn();	
 		JSONObject jsonObject = new JSONObject();	
-
-		
-		try{
-			
+	
+		try{		
 			Statement s = conn.createStatement();
 			String query = "select * from share";
 			ResultSet shareRS = s.executeQuery(query);
-			System.out.println("社区分享数据："+shareRS);
-			
+			System.out.println("社区分享数据："+shareRS);		
 			//List<Object> list = new ArrayList<Object>();  
 	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();  
-	        
-			
-			while(shareRS.next()) {
-				
+	
+			while(shareRS.next()) {		
 				Map<String, Object> map = new HashMap<String, Object>(); 
 				
 				String userName = shareRS.getString("username");
