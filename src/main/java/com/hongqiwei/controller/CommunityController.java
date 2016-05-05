@@ -26,11 +26,11 @@ public class CommunityController {
 
 	@RequestMapping(value="/community") 
 	@ResponseBody
-	public String community(@RequestParam("username") String username
+	public Map<String,String> community(@RequestParam("username") String username
 			){
 	
-		JSONObject jsonObject = new JSONObject();
-		
+		//JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String, String>();
 		Database db = new Database();
 		Connection conn = db.getConn();
 		
@@ -44,12 +44,14 @@ public class CommunityController {
 				rs = s.executeQuery(sql);
 				if(rs == null){
 					//用户不存在
-					jsonObject.put("result","fail");
+					map.put("result","fail");
+					//jsonObject.put("result","fail");
 					System.out.println("不存在此用户，不展示朋友圈信息");
 				}
 				else{
-						jsonObject.put("result","success");
-						System.out.println("为用户"+username+"展示朋友圈信息");
+					map.put("result","success");
+					//jsonObject.put("result","success");
+					System.out.println("为用户"+username+"展示朋友圈信息");
 						
 //						JSONArray shareArray = new JSONArray();
 //						shareArray.add(list);
@@ -63,30 +65,38 @@ public class CommunityController {
 		catch(SQLException e){
 			e.printStackTrace();
 		}
-		
-		return jsonObject.toString();
-		
+		System.out.println("\n看输出"+JSONObject.toJSONString(map)+"\n");
+		return map;
+		//System.out.print("\n看输出"+jsonObject.toJSONString());
+		//return jsonObject.toJSONString();
 	}
 	
 	
 	@RequestMapping(value="/getShareList") 
 	@ResponseBody
-	public String getShareList(@RequestParam("username") String username){
+	public Map<String, Object> getShareList(@RequestParam("username") String username){
 		
 		Database db = new Database();
 		Connection conn = db.getConn();	
-		JSONObject jsonObject = new JSONObject();	
-	
+		//JSONObject jsonObject = new JSONObject();	
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Map<String, Object> sharelist = new HashMap<String, Object>();
+		
+		Map<String, String> resultmap = new HashMap<String, String>();
+		
+		//List<Object> list = new ArrayList<Object>();  
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();  
+		
 		try{		
 			Statement s = conn.createStatement();
 			String query = "select * from share";
 			ResultSet shareRS = s.executeQuery(query);
 			System.out.println("社区分享数据："+shareRS);		
-			//List<Object> list = new ArrayList<Object>();  
-	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();  
+			
 	
 			while(shareRS.next()) {		
-				Map<String, Object> map = new HashMap<String, Object>(); 
+				 
 				
 				String userName = shareRS.getString("username");
 				String sDate = shareRS.getString("sdate");
@@ -104,15 +114,16 @@ public class CommunityController {
 				list.add(map);
 				System.out.print("list:" +list);
 			}	
-				jsonObject.put("share_list", list);
-				jsonObject.put("result","success");
+			
+				sharelist.put("share_list", list);
+				resultmap.put("result","success");
 			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		    
 		
-		return jsonObject.toString();
-		//return jsonObject.toJSONString();
+
+		//return jsonObject.toString();
+		return sharelist ;
 	}
 }

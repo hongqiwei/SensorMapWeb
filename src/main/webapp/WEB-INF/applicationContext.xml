@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
 
-   
+  
     <!-- 采用注释的方式配置bean  -->
     <context:annotation-config />    
     <!-- 配置要扫描的包 -->    
