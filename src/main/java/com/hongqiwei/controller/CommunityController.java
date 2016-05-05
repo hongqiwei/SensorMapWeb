@@ -24,7 +24,7 @@ import com.hongqiwei.Database;
 @Controller
 public class CommunityController {
 
-	@RequestMapping(value="/community",produces="text/html;charset=UTF-8") 
+	@RequestMapping(value="/community") 
 	@ResponseBody
 	public String community(@RequestParam("username") String username
 			){
@@ -69,7 +69,7 @@ public class CommunityController {
 	}
 	
 	
-	@RequestMapping(value="/getShareList", produces="text/html;charset=UTF-8") 
+	@RequestMapping(value="/getShareList") 
 	@ResponseBody
 	public String getShareList(@RequestParam("username") String username){
 		
