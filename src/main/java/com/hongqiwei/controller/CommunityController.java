@@ -79,11 +79,10 @@ public class CommunityController {
 		Database db = new Database();
 		Connection conn = db.getConn();	
 		//JSONObject jsonObject = new JSONObject();	
-		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Map<String, Object> sharelist = new HashMap<String, Object>();
 		
-		Map<String, String> resultmap = new HashMap<String, String>();
+		Map<String, Object> resultmap = new HashMap<String, Object>();
 		
 		//List<Object> list = new ArrayList<Object>();  
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();  
@@ -96,34 +95,36 @@ public class CommunityController {
 			
 	
 			while(shareRS.next()) {		
-				 
-				
+
 				String userName = shareRS.getString("username");
 				String sDate = shareRS.getString("sdate");
 				String roadName = shareRS.getString("roadname");
 				String sensorData = shareRS.getString("sensordata");
 				String mDate = shareRS.getString("mdate");
-				System.out.print("share: " + userName + sDate + roadName + sensorData + mDate );
+				System.out.print("\nshare: " + userName + sDate + roadName + sensorData + mDate );
 				
+				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("user_name", userName);
 				map.put("share_date", sDate);
 				map.put("road_name", roadName);
 				map.put("sensor_date", sensorData);
 				map.put("measure_date", mDate);
-				System.out.print("map:" +map);
+				System.out.print("\nmap:" +map);
 				list.add(map);
-				System.out.print("list:" +list);
+				
 			}	
+				System.out.print("\nlist:" +list);
 			
-				sharelist.put("share_list", list);
+				//sharelist.put("share_list", list);
 				resultmap.put("result","success");
-			
+				resultmap.put("share_pengyouquan", list);
+				conn.close();
+				
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		
-
 		//return jsonObject.toString();
-		return sharelist ;
+		return resultmap ;
 	}
 }
