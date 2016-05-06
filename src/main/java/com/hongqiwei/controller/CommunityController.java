@@ -107,7 +107,7 @@ public class CommunityController {
 				map.put("user_name", userName);
 				map.put("share_date", sDate);
 				map.put("road_name", roadName);
-				map.put("sensor_date", sensorData);
+				map.put("sensor_data", sensorData);
 				map.put("measure_date", mDate);
 				System.out.print("\nmap:" +map);
 				list.add(map);

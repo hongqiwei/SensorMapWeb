@@ -4,6 +4,8 @@ import java.sql.Connection;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +19,13 @@ import com.hongqiwei.Database;
 public class ShareController {
 	@RequestMapping(value="/share",produces="text/html;charset=UTF-8") 
 	@ResponseBody
-	public String share(@RequestParam("username") String username
+	public Map<String, Object> share(@RequestParam("username") String username
 			,@RequestParam("sharedate") String sharedate,@RequestParam("roadname") String roadname,
 			@RequestParam("sensordata") String sensordata,@RequestParam("measuredate") String measuredate){
 		System.out.println("username: " + username);
 		
-		JSONObject jsonObject = new JSONObject();
+		//JSONObject jsonObject = new JSONObject();
+		Map<String, Object> result = new HashMap<String, Object>();
 		
 		Database db = new Database();
 		Connection conn = db.getConn();
@@ -35,7 +38,7 @@ public class ShareController {
 							+ "'" + sensordata + "','" + measuredate + "')";
 					System.out.print("db operation: " + sql);
 					s.execute(sql);
-					jsonObject.put("result","success");
+					result.put("result","success");
 					System.out.println("分享数据存储成功");
 				
 	
@@ -43,11 +46,11 @@ public class ShareController {
 		}
 		catch(SQLException e){
 			e.printStackTrace();
-			jsonObject.put("result","fail");
+			result.put("result","fail");
 			System.out.println("分享数据存储失败");
 		}			
 					
-		return jsonObject.toString();
+		return result;
 	
 		}
 }

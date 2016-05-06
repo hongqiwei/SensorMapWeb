@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +21,11 @@ public class LoginController{
 	
 	@RequestMapping(value="/login") 
 	@ResponseBody
-	public String login(@RequestParam("username") String username
+	public Map<String, Object> login(@RequestParam("username") String username
 			,@RequestParam("password") String password){
 	
-		JSONObject jsonObject = new JSONObject();
+		//JSONObject jsonObject = new JSONObject();
+		Map<String, Object> result = new HashMap<String, Object>();
 		
 		Database db = new Database();
 		Connection conn = db.getConn();
@@ -38,19 +41,19 @@ public class LoginController{
 				rs = s.executeQuery(sql);
 				if(rs == null){
 					//用户不存在
-					jsonObject.put("result","fail1");
+					result.put("result","fail1");
 					System.out.println("不存在此用户，登录失败");
 				}
 				else{
 					while(rs.next()) {
 						String psw = rs.getString("password");
 						if(psw.equals(password)){
-							jsonObject.put("result","success");
-							jsonObject.put("access_token", "YES");
+							result.put("result","success");
+							result.put("access_token", "YES");
 							System.out.println("登录成功");
 						}
 						else{
-							jsonObject.put("result","fail2");
+							result.put("result","fail2");
 							System.out.println("密码不正确，登录失败");
 						}
 					}
@@ -64,16 +67,18 @@ public class LoginController{
 			e.printStackTrace();
 		}
 		
-		return jsonObject.toString();
+		return result;
 	}
 	
 	@RequestMapping(value="/register") 
 	@ResponseBody
-	public String register(@RequestParam("username") String username
+	public Map<String, Object> register(@RequestParam("username") String username
 			,@RequestParam("password") String password){
 		System.out.println("username: " + username);
 		System.out.println("username: " + username);
-		JSONObject jsonObject = new JSONObject();
+		
+		//JSONObject jsonObject = new JSONObject();
+		Map<String, Object> result = new HashMap<String, Object>();
 		
 		Database db = new Database();
 		Connection conn = db.getConn();
@@ -91,11 +96,11 @@ public class LoginController{
 					sql = "insert into user(username,password) values('" + username + "','" + password + "')";
 					System.out.print("db operation: " + sql);
 					s.execute(sql);
-					jsonObject.put("result","success");
+					result.put("result","success");
 					System.out.println("注册成功");
 				}
 				else{
-					jsonObject.put("result","fail2");
+					result.put("result","fail2");
 					System.out.println("当前用户名已存在，注册失败");
 				}
 		}
@@ -103,11 +108,11 @@ public class LoginController{
 		}
 		catch(SQLException e){
 			e.printStackTrace();
-			jsonObject.put("result","fail1");
+			result.put("result","fail1");
 			System.out.println("注册失败");
 		}			
 					
-		return jsonObject.toString();
+		return result;
 	
 		}
 }
