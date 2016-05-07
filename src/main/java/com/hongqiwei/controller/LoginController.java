@@ -101,7 +101,7 @@ public class LoginController{
 				}
 				else{
 					result.put("result","fail2");
-					System.out.println("当前用户名已存在，注册失败");
+					System.out.println("当前用户名已存在，注册失败!");
 				}
 		}
 			conn.close();
